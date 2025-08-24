@@ -21,33 +21,22 @@ export default function ContactForm() {
 
   const isFormValid = formData.name.trim() && formData.email.trim() && formData.message.trim();
 
-  const handleSubmit = async () => {
-    if (!isFormValid) return;
-    setIsSubmitting(true);
-    setSubmitStatus(true);
+  const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    try {
-      const response = await fetch("http://localhost:5000/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData)
-      });
+  const res = await fetch("/.netlify/functions/sendEmail", {
+    method: "POST",
+    body: JSON.stringify({
+      name,
+      email,
+      message,
+    }),
+  });
 
-      const data = await response.json();
+  const data = await res.json();
+  alert(data.msg || "Something went wrong!");
+};
 
-      if (data.success) {
-        setSubmitStatus(true);
-        setFormData({ name: "", email: "", subject: "", message: "" });
-      } else {
-        setSubmitStatus(true);
-      }
-    } catch (error) {
-      console.error("❌ Error submitting form:", error);
-      setSubmitStatus('error');
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
 
   const styles = {
     formContainer: {
