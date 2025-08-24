@@ -1,0 +1,40 @@
+.scroll-container {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.scroll-content {
+  display: flex;
+  animation: scroll-left 20s linear infinite;
+  animation-play-state: running;
+}
+
+.scroll-container:hover .scroll-content {
+  animation-play-state: paused;
+}
+
+.scroll-card {
+  flex-shrink: 0;
+  margin-right: 2rem; /* spacing between cards */
+}
+
+.to-be-continued {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: monospace;
+  font-size: 20px;
+  color: #ccc;
+  margin-right: 4rem;
+  white-space: nowrap;
+}
+
+@keyframes scroll-left {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
