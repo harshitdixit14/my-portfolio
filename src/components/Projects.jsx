@@ -1,88 +1,49 @@
-import React from "react";
-import { motion } from "framer-motion";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
+import SectionHeading from "./ui/SectionHeading";
 import ProjectCard from "./ProjectCard";
+import Reveal from "./ui/Reveal";
 
 const projects = [
   {
     title: "Object Type Tracker",
-    description: "Developed an advanced object detection and tracking system leveraging YOLOv8, fine-tuned on 200+ object classes using data from the Google Open Images API. The model achieved an overall 80% detection accuracy, making it robust for diverse real-world scenarios.",
-    tech: ["Open Images", "fiftyone", "YOLOv8", "Python"],
-    github: "https://github.com/username/object-tracker",
-    live: "https://object-tracker-demo.netlify.app"
+    description:
+      "Advanced object detection and tracking system leveraging YOLOv8, fine-tuned on 200+ object classes using the Google Open Images API. Achieved ~80% detection accuracy, making it robust for diverse real-world scenarios.",
+    tech: ["YOLOv8", "Open Images", "FiftyOne", "Python"],
+    github: "https://github.com/harshitdixit14",
+    live: "",
   },
   {
     title: "Clothes Classification",
-    description: "Built a Convolutional Neural Network (CNN) to classify clothing items using the Fashion-MNIST dataset, achieving 95% accuracy on the test set. The project showcases a complete deep learning workflow from data preprocessing to model evaluation.",
+    description:
+      "A Convolutional Neural Network (CNN) to classify clothing items on the Fashion-MNIST dataset, reaching 95% test accuracy. Showcases a complete deep-learning workflow from preprocessing to evaluation.",
     tech: ["TensorFlow", "CNN", "Python"],
-    github: "https://github.com/harshitdixit14/Machine_Learning/blob/main/fashion_MNIST_CNN.ipynb",
-    live: "https://clothes-demo.netlify.app"
+    github:
+      "https://github.com/harshitdixit14/Machine_Learning/blob/main/fashion_MNIST_CNN.ipynb",
+    live: "",
   },
   {
-    title: "Fault tolerant flask application",
-    description: "Developed a fault tolerant flask application deployed on a kubernetes cluster with round-robin load balancing across two pods. The system ensures request contiuity by storing client messages, counters and timestamps in a MySQL databse. Docker was used for containerization, with Kubernetes YAML files managingg deployents, service.",
-    tech: ["TensorFlow", "CNN", "Python"],
+    title: "Fault-Tolerant Flask App",
+    description:
+      "Fault-tolerant Flask application deployed on a Kubernetes cluster with round-robin load balancing across two pods. Ensures request continuity by persisting client messages, counters and timestamps in MySQL — containerized with Docker and orchestrated via Kubernetes.",
+    tech: ["Flask", "Kubernetes", "Docker", "MySQL"],
     github: "https://github.com/harshitdixit14/K8s-Assessment",
-    live: "https://clothes-demo.netlify.app"
+    live: "",
   },
-  // ➕ Add more projects here
 ];
 
-export default function Projects() {
+const Projects = () => {
   return (
-    <section>
-      <Card
-        sx={{
-          width: "95%",
-          margin: "auto",
-          padding: 3,
-          borderRadius: 4,
-          backgroundColor: "rgba(222, 196, 196, 0.15)",
-          backdropFilter: "blur(12px)",
-          WebkitBackdropFilter: "blur(12px)",
-          border: "1px solid rgba(255, 255, 255, 0.2)",
-          boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
-        }}
-      >
-        <CardContent>
-          <Typography
-            variant="h4"
-            sx={{
-              fontFamily: "monospace",
-              marginBottom: 4,
-              fontSize: "30px",
-              fontWeight: "bold",
-              color: "#fff",
-            }}
-          >
-            🤖 Projects
-          </Typography>
+    <section id="projects" className="mx-auto w-full max-w-5xl px-4 sm:px-6">
+      <SectionHeading eyebrow="Selected work" title="Featured Projects" />
 
-          <Box
-            sx={{
-              display: "flex",
-              flexWrap: "wrap",
-              gap: 4,
-              justifyContent: "center",
-            }}
-          >
-            {projects.map((project, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-              >
-                <ProjectCard {...project} />
-              </motion.div>
-            ))}
-          </Box>
-        </CardContent>
-      </Card>
+      <div className="flex flex-col gap-6">
+        {projects.map((project, index) => (
+          <Reveal key={project.title} delay={index * 0.08}>
+            <ProjectCard {...project} index={index} />
+          </Reveal>
+        ))}
+      </div>
     </section>
   );
-}
+};
+
+export default Projects;

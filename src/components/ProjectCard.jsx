@@ -1,91 +1,62 @@
-import React from 'react';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import Typography from '@mui/material/Typography';
-import { FaGithub, FaExternalLinkAlt } from "react-icons/fa";
+import { FaGithub } from "react-icons/fa";
+import { ArrowUpRight } from "lucide-react";
 
-const ProjectCard = ({ title, description, tech, github, live }) => (
-  <Card
-    sx={{
-      width: '1000px',
-      minHeight: 220,
-      margin: 2,
-      backgroundColor: 'rgba(200, 220, 255, 0.7)',
-      boxShadow: 3,
-      borderRadius: 3,
-      transition: 'transform 0.2s',
-      '&:hover': {
-        transform: 'scale(1.05)',
-        boxShadow: 6,
-      },
-      cursor: 'pointer',
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'space-between',
-      backdropFilter: 'blur(8px)',
-      WebkitBackdropFilter: 'blur(8px)',
-      border: '1px solid rgba(255, 255, 255, 0.2)',
-    }}
-  >
-    <CardContent>
-      <Typography
-        gutterBottom
-        variant="h6"
-        component="div"
-        sx={{
-          fontFamily: 'monospace',
-          fontWeight: 'bold',
-          fontSize: '20px',
-          color: '#000000ff',
-          letterSpacing: '1px',
-        }}
-      >
-        {title}
-      </Typography>
-      <Typography
-        variant="body2"
-        sx={{
-          fontFamily: 'monospace',
-          fontSize: '14px',
-          color: '#000000ff',
-          opacity: 0.8,
-          lineHeight: 1.6,
-          marginBottom: 1,
-        }}
-      >
-        {description}
-      </Typography>
+const ProjectCard = ({ title, description, tech, github, live, index = 0 }) => (
+  <article className="group glass card-hover relative overflow-hidden rounded-2xl p-6 sm:p-8">
+    {/* number watermark */}
+    <span className="pointer-events-none absolute -right-2 -top-4 font-display text-7xl font-bold text-white/[0.03] sm:text-8xl">
+      0{index + 1}
+    </span>
 
-      {/* Tech stack */}
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '10px' }}>
-        {tech.map((t, i) => (
-          <span
-            key={i}
-            style={{
-              padding: '2px 8px',
-              fontSize: '12px',
-              borderRadius: '12px',
-              backgroundColor: 'rgba(0,0,0,0.1)',
-              color: '#000',
-              fontFamily: 'monospace',
-            }}
+    <div className="relative flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+      <div className="flex-1">
+        <h3 className="font-display text-xl font-bold text-white sm:text-2xl">
+          {title}
+        </h3>
+        <p className="mt-3 max-w-2xl text-sm leading-relaxed text-gray-400 sm:text-base">
+          {description}
+        </p>
+
+        {/* tech chips */}
+        <div className="mt-5 flex flex-wrap gap-2">
+          {tech.map((t) => (
+            <span
+              key={t}
+              className="rounded-full border border-white/10 bg-white/5 px-3 py-1 font-mono text-xs text-cyan-300"
+            >
+              {t}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      {/* links */}
+      <div className="flex shrink-0 items-center gap-3 sm:flex-col sm:items-end">
+        {github && (
+          <a
+            href={github}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`${title} source code`}
+            className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-white transition-all hover:-translate-y-0.5 hover:border-white/30 hover:bg-white/10"
           >
-            {t}
-          </span>
-        ))}
+            <FaGithub size={20} />
+          </a>
+        )}
+        {live && (
+          <a
+            href={live}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`${title} live demo`}
+            className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-violet-500 to-cyan-400 text-black transition-all hover:-translate-y-0.5"
+          >
+            <ArrowUpRight size={20} />
+          </a>
+        )}
       </div>
-
-      {/* Links */}
-      <div style={{ display: 'flex', gap: '10px' }}>
-        <a href={github} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '5px', textDecoration: 'none', color: '#000', fontSize: '14px' }}>
-          <FaGithub /> Code
-        </a>
-        <a href={live} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '5px', textDecoration: 'none', color: '#000', fontSize: '14px' }}>
-          <FaExternalLinkAlt /> Live
-        </a>
-      </div>
-    </CardContent>
-  </Card>
+    </div>
+  </article>
 );
 
 export default ProjectCard;

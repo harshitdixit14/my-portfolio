@@ -1,58 +1,54 @@
-import React, { useState, useEffect } from 'react';
-import Background from './components/Background';
+import { useState, useEffect } from "react";
+import Background from "./components/Background";
 import Navbar from "./components/Navbar";
-import TypingText from './components/TypingText'; 
-import Summary from './components/Summary';
-import TechStack from './components/TechStack';
-import Timeline from './components/Timeline';
-import ProfileCard from './components/ProfileCard/ProfileCard';
-import Projects from './components/Projects';
-import ContactForm from './components/ContactForm';
+import TypingText from "./components/TypingText";
+import Summary from "./components/Summary";
+import TechStack from "./components/TechStack";
+import Timeline from "./components/Timeline";
+import Projects from "./components/Projects";
+import ContactForm from "./components/ContactForm";
+import Footer from "./components/Footer";
 
 function App() {
   const [navbarVisible, setNavbarVisible] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
 
   useEffect(() => {
+    let lastScrollY = window.scrollY;
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-      if (currentScrollY > lastScrollY && currentScrollY > 80) {
-        setNavbarVisible(false); // Hide on scroll down
-      } else {
-        setNavbarVisible(true); // Show on scroll up or near top
-      }
-      setLastScrollY(currentScrollY);
+      setNavbarVisible(currentScrollY < lastScrollY || currentScrollY < 80);
+      lastScrollY = currentScrollY;
     };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [lastScrollY]);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
-    <div className="relative min-h-screen bg-black text-white overflow-x-hidden">
-      {/* Animated Background */}
+    <div className="relative min-h-screen overflow-x-hidden bg-[#05060a] text-white">
+      {/* Animated starfield */}
       <Background />
 
-      {/* Fixed Navbar */}
+      {/* Ambient gradient blobs */}
+      <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
+        <div className="animate-blob absolute -left-40 top-0 h-[28rem] w-[28rem] rounded-full bg-violet-600/20 blur-[120px]" />
+        <div className="animate-blob absolute right-0 top-1/3 h-[26rem] w-[26rem] rounded-full bg-cyan-500/15 blur-[120px] [animation-delay:6s]" />
+        <div className="animate-blob absolute bottom-0 left-1/4 h-[24rem] w-[24rem] rounded-full bg-pink-500/10 blur-[120px] [animation-delay:12s]" />
+      </div>
+
       <Navbar visible={navbarVisible} />
 
-      {/* Main Content */}
-      <main className="relative z-10 flex flex-col justify-start pt-[100px] px-4 sm:px-8">
-        
+      <main className="relative z-10">
         <TypingText />
-        <div style={{ marginTop: "8rem" }} />
-        {/* Other sections */}
-        <section className="mt-10 w-full max-w-4xl">
+
+        <div className="flex flex-col gap-28 py-16 sm:gap-36 sm:py-24">
           <Summary />
-          <div style={{ marginTop: "8rem" }} />
           <TechStack />
-          <div style={{ marginTop: "8rem" }} />
           <Timeline />
-          <div style={{ marginTop: "8rem" }} />
           <Projects />
-          <div style={{ marginTop: "8rem" }} />
           <ContactForm />
-        </section>
+        </div>
+
+        <Footer />
       </main>
     </div>
   );
